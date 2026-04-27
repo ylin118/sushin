@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n="pageTitle">Sushin Sant Gervasi — Sushi en Sant Gervasi</title>
+    <meta name="description" data-i18n="metaDesc"
+        content="Sushin Sant Gervasi: Sushi fusión con creatividad mediterránea en Pg. de St. Gervasi, 75. Carta exclusiva, reservas, delivery y gift cards." />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { red: '#D4282D', dark: '#1A1A1A', cream: '#F5F0E8', gold: '#C9A96E', light: '#FFF8F0' },
+                    },
+                    fontFamily: {
+                        display: ['Bebas Neue', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script>
+        window.currentResto = 'santgervasi';
+    </script>
+    <style>
+        .animate-pulse-gold {
+            animation: pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse-gold {
+
+            0%,
+            100% {
+                opacity: 1;
+                box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.5);
+            }
+
+            50% {
+                opacity: 0.9;
+                box-shadow: 0 0 15px 4px rgba(201, 169, 110, 0.3);
+            }
+        }
+
+        .lang-select {
+            background-color: transparent;
+            border: 1px solid #374151;
+            border-radius: 9999px;
+            padding: 0.25rem 1.5rem 0.25rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #D1D5DB;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23C9A96E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 14px;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .lang-select:hover {
+            border-color: #C9A96E;
+            color: #C9A96E;
+        }
+
+        .lang-select:focus {
+            outline: none;
+            border-color: #C9A96E;
+            box-shadow: 0 0 0 2px rgba(201, 169, 110, 0.3);
+        }
+
+        .lang-select option {
+            background-color: #1A1A1A;
+            color: #D1D5DB;
+        }
+
+        @media (max-width: 1023px) {
+            .lang-select {
+                font-size: 0.75rem;
+                padding: 0.125rem 1.25rem 0.125rem 0.5rem;
+                background-position: right 0.25rem center;
+                background-size: 12px;
+            }
+        }
+
+        .map-container {
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 2px solid #C9A96E;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 300px;
+            border: 0;
+        }
+
+        .jotform-review-wrapper {
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 2px solid #C9A96E;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            background: #1A1A1A;
+        }
+
+        .jotform-review-wrapper a[href*="jotform"],
+        .jotform-review-wrapper img[src*="jotform"],
+        .jotform-review-wrapper div[class*="jotform"],
+        .jotform-review-wrapper span[class*="jotform"] {
+            display: none !important;
+        }
+
+        .jotform-review-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: #1A1A1A;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .google-review-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background: rgba(201, 169, 110, 0.1);
+            border: 1px solid #C9A96E;
+            border-radius: 1rem;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .google-review-link:hover {
+            background: rgba(201, 169, 110, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="bg-brand-dark" data-page="santgervasi">
+
+    <a href="#main-content" class="skip-nav" data-i18n="skipNav">Saltar al contenido principal</a>
+
+    <div id="loadingScreen" class="loading-screen" aria-hidden="true">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div
+                    class="w-14 h-14 bg-brand-gold rounded-full flex items-center justify-center animate-pulse mx-auto overflow-hidden">
+                    <img src="images/sushinlogo.png" alt="Sushin Logo" class="w-full h-full object-contain p-1" />
+                </div>
+            </div>
+            <div class="mt-4 text-center animate-fadeIn">
+                <span class="font-display text-2xl tracking-wider text-white">SUSHIN</span>
+                <span class="text-brand-gold text-xs block -mt-1 tracking-widest">SANT GERVASI</span>
+            </div>
+            <div class="loading-bar mt-6">
+                <div class="loading-bar-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="scrollProgress" class="scroll-progress" aria-hidden="true">
+        <div class="scroll-progress-fill"></div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500"
+        style="background: transparent;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex items-center gap-2 group" aria-label="Sushin Sant Gervasi - Inicio">
+                    <div
+                        class="w-10 h-10 bg-brand-gold rounded-full flex items-center justify-center group-hover:scale-110 transition-transform overflow-hidden">
+                        <img src="images/sushinlogo.png" alt="Sushin Logo" class="w-full h-full object-contain p-1" />
+                    </div>
+                    <div>
+                        <span class="font-display text-2xl tracking-wider text-white">SUSHIN</span>
+                        <span class="text-brand-gold text-xs block -mt-1 tracking-widest">SANT GERVASI</span>
+                    </div>
+                </a>
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="index.html#restaurantes"
+                        class="text-sm text-gray-300 hover:text-brand-gold transition-colors tracking-wide uppercase font-medium"
+                        data-i18n="navRestaurants">Restaurantes</a>
+                    <a href="#menu"
+                        class="text-sm text-gray-300 hover:text-brand-gold transition-colors tracking-wide uppercase font-medium"
+                        data-i18n="navMenu">Carta</a>
+                    <a href="#valores"
+                        class="text-sm text-gray-300 hover:text-brand-gold transition-colors tracking-wide uppercase font-medium"
+                        data-i18n="navAbout">Nosotros</a>
+                    <a href="#giftcard"
+                        class="text-sm text-gray-300 hover:text-brand-gold transition-colors tracking-wide uppercase font-medium"
+                        data-i18n="navGift">Gift Card</a>
+                    <a href="#grupos"
+                        class="text-sm text-gray-300 hover:text-brand-gold transition-colors tracking-wide uppercase font-medium"
+                        data-i18n="navGroups">Grupos</a>
+                    <a href="#faq"
+                        class="text-sm text-gray-300 hover:text-brand-gold transition-colors tracking-wide uppercase font-medium">FAQ</a>
+                </div>
+                <div class="hidden lg:flex items-center gap-3">
+                    <select id="lang-select-desktop" class="lang-select" aria-label="Seleccionar idioma">
+                        <option value="es">ES</option>
+                        <option value="ca">CA</option>
+                        <option value="en">EN</option>
+                        <option value="fr">FR</option>
+                    </select>
+                    <button id="userBtnDesktop"
+                        class="w-10 h-10 rounded-full border-2 border-gray-600 flex items-center justify-center text-gray-300 hover:border-brand-gold hover:text-brand-gold transition-all"
+                        aria-label="Cuenta de usuario"><i data-lucide="user" class="w-5 h-5"></i></button>
+                    <a href="reservar.html"
+                        class="px-5 py-2.5 border-2 border-brand-gold text-brand-gold rounded-full text-sm font-semibold hover:bg-brand-gold hover:text-brand-dark transition-all tracking-wide"
+                        data-i18n="navReserve">RESERVAR</a>
+                    <a href="pedir.html"
+                        class="px-5 py-2.5 bg-brand-gold text-brand-dark rounded-full text-sm font-semibold hover:bg-yellow-600 transition-all tracking-wide animate-pulse-gold"
+                        data-i18n="navOrder">PEDIR AHORA</a>
+                </div>
+                <div class="flex lg:hidden items-center gap-2">
+                    <select id="lang-select-mobile" class="lang-select" aria-label="Seleccionar idioma">
+                        <option value="es">ES</option>
+                        <option value="ca">CA</option>
+                        <option value="en">EN</option>
+                        <option value="fr">FR</option>
+                    </select>
+                    <button id="userBtnMobile"
+                        class="w-10 h-10 rounded-full border-2 border-gray-600 flex items-center justify-center text-gray-300 hover:border-brand-gold hover:text-brand-gold transition-all"
+                        aria-label="Cuenta de usuario"><i data-lucide="user" class="w-5 h-5"></i></button>
+                    <button id="menuToggle" class="text-white p-2" aria-label="Abrir menú" aria-expanded="false"
+                        aria-controls="mobileMenu"><i data-lucide="menu" class="w-6 h-6"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 w-80 h-full bg-brand-dark z-[60] p-8 flex flex-col"
+        role="dialog" aria-modal="true" aria-label="Menú de navegación">
+        <button id="menuClose" class="self-end text-white mb-8" aria-label="Cerrar menú"><i data-lucide="x"
+                class="w-7 h-7"></i></button>
+        <div class="flex flex-col gap-6">
+            <a href="index.html#restaurantes"
+                class="text-2xl font-display tracking-wider text-white hover:text-brand-gold transition-colors mobile-link"
+                data-i18n="navRestaurants">RESTAURANTES</a>
+            <a href="#menu"
+                class="text-2xl font-display tracking-wider text-white hover:text-brand-gold transition-colors mobile-link"
+                data-i18n="navMenu">CARTA</a>
+            <a href="#valores"
+                class="text-2xl font-display tracking-wider text-white hover:text-brand-gold transition-colors mobile-link"
+                data-i18n="navAbout">NOSOTROS</a>
+            <a href="#giftcard"
+                class="text-2xl font-display tracking-wider text-white hover:text-brand-gold transition-colors mobile-link"
+                data-i18n="navGift">GIFT CARD</a>
+            <a href="#grupos"
+                class="text-2xl font-display tracking-wider text-white hover:text-brand-gold transition-colors mobile-link"
+                data-i18n="navGroups">GRUPOS</a>
+            <a href="#faq"
+                class="text-2xl font-display tracking-wider text-white hover:text-brand-gold transition-colors mobile-link">FAQ</a>
+        </div>
+        <div class="mt-auto flex flex-col gap-3">
+            <a href="reservar.html"
+                class="px-6 py-3 border-2 border-brand-gold text-brand-gold rounded-full text-center font-semibold hover:bg-brand-gold hover:text-brand-dark transition-all"
+                data-i18n="navReserve">RESERVAR</a>
+            <a href="pedir.html"
+                class="px-6 py-3 bg-brand-gold text-brand-dark rounded-full text-center font-semibold hover:bg-yellow-600 transition-all"
+                data-i18n="navOrder">PEDIR AHORA</a>
+        </div>
+    </div>
+    <div id="menuOverlay" class="fixed inset-0 bg-black/60 z-[55] hidden"></div>
+
+    <main id="main-content">
+
+        <!-- HERO -->
+        <section class="hero-bg min-h-screen flex items-center justify-center relative overflow-hidden"
+            style="background-image: linear-gradient(135deg, rgba(26,26,26,0.4) 0%, rgba(26,26,26,0.8) 100%), url('http://static.photos/food/1200x630/100');">
+            <div class="text-center px-4 max-w-5xl mx-auto relative z-10">
+                <div class="animate-fadeIn">
+                    <span
+                        class="inline-block px-4 py-1.5 bg-brand-gold/20 border border-brand-gold/40 rounded-full text-brand-gold text-xs font-semibold tracking-widest uppercase mb-6"
+                        data-i18n="heroTagline">✨ Sushin Sant Gervasi · Elegancia & Sabor</span>
+                </div>
+                <h1
+                    class="font-display text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] leading-[0.85] tracking-wider mb-6 animate-fadeInUp">
+                    <span class="text-white">SU</span><span class="text-brand-gold">SHIN</span>
+                </h1>
+                <p
+                    class="text-2xl sm:text-3xl font-display tracking-[0.3em] text-brand-gold mb-4 animate-fadeInUp delay-200">
+                    SANT GERVASI</p>
+                <p class="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto mb-10 animate-fadeInUp delay-300 leading-relaxed"
+                    data-i18n="heroDescription">Donde la tradición japonesa encuentra la calma de la alta Barcelona.
+                    Sushi de autor en el barrio más distinguido.</p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fadeInUp delay-400">
+                    <a href="pedir.html"
+                        class="group px-10 py-4 bg-brand-gold text-brand-dark rounded-full text-lg font-bold tracking-wider hover:bg-yellow-600 transition-all flex items-center gap-3 animate-pulse-gold">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i> <span data-i18n="heroOrderBtn">PEDIR
+                            AHORA</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <a href="reservar.html"
+                        class="px-10 py-4 border-2 border-white/30 text-white rounded-full text-lg font-bold tracking-wider hover:border-brand-gold hover:text-brand-gold transition-all flex items-center gap-3">
+                        <i data-lucide="calendar" class="w-5 h-5"></i> <span data-i18n="heroReserveBtn">RESERVAR
+                            MESA</span>
+                    </a>
+                </div>
+                <div class="flex items-center justify-center gap-8 sm:gap-16 mt-16 animate-fadeInUp delay-500">
+                    <div class="text-center"><span class="font-display text-4xl text-brand-gold counter-value"
+                            data-target="4">0</span><span
+                            class="block text-xs text-gray-400 tracking-widest uppercase mt-1"
+                            data-i18n="counterRestaurants">Restaurantes</span></div>
+                    <div class="w-px h-10 bg-gray-700"></div>
+                    <div class="text-center"><span class="font-display text-4xl text-brand-gold counter-value"
+                            data-target="60">0</span><span class="font-display text-4xl text-brand-gold">+</span><span
+                            class="block text-xs text-gray-400 tracking-widest uppercase mt-1"
+                            data-i18n="counterDishes">Platos</span></div>
+                    <div class="w-px h-10 bg-gray-700"></div>
+                    <div class="text-center"><span class="font-display text-4xl text-brand-gold counter-value"
+                            data-target="10">0</span><span class="font-display text-4xl text-brand-gold">+</span><span
+                            class="block text-xs text-gray-400 tracking-widest uppercase mt-1"
+                            data-i18n="counterYears">Años</span></div>
+                </div>
+            </div>
+            <div
+                class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fadeIn delay-600">
+                <span class="text-xs text-gray-500 tracking-widest uppercase" data-i18n="scrollText">Scroll</span>
+                <div class="w-5 h-9 border-2 border-gray-600 rounded-full flex justify-center pt-2">
+                    <div class="w-1 h-2 bg-brand-gold rounded-full animate-bounce"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MARQUEE -->
+        <div class="bg-brand-gold py-4 overflow-hidden" aria-hidden="true">
+            <div class="flex animate-marquee whitespace-nowrap">
+                <span class="font-display text-2xl tracking-[0.4em] mx-8 text-brand-dark" data-i18n="marqueeNoSushi">NO
+                    SUSHI NO LIFE</span><span class="text-2xl">🍣</span>
+                <span class="font-display text-2xl tracking-[0.4em] mx-8 text-brand-dark">SUSHIN SANT
+                    GERVASI</span><span class="text-2xl">🥢</span>
+                <span class="font-display text-2xl tracking-[0.4em] mx-8 text-brand-dark"
+                    data-i18n="marqueeFusion">FUSIÓN</span><span class="text-2xl">✨</span>
+                <span class="font-display text-2xl tracking-[0.4em] mx-8 text-brand-dark" data-i18n="marqueeNoSushi">NO
+                    SUSHI NO LIFE</span><span class="text-2xl">🍣</span>
+                <span class="font-display text-2xl tracking-[0.4em] mx-8 text-brand-dark">SUSHIN SANT
+                    GERVASI</span><span class="text-2xl">🥢</span>
+                <span class="font-display text-2xl tracking-[0.4em] mx-8 text-brand-dark"
+                    data-i18n="marqueeCreativity">CREATIVIDAD</span><span class="text-2xl">✨</span>
+                <span class="font-display text-2xl tracking-[0.4em] mx-8 text-brand-dark" data-i18n="marqueeNoSushi">NO
+                    SUSHI NO LIFE</span><span class="text-2xl">🍣</span>
+                <span class="font-display text-2xl tracking-[0.4em] mx-8 text-brand-dark">SUSHIN SANT
+                    GERVASI</span><span class="text-2xl">🥢</span>
+            </div>
+        </div>
+
+        <!-- RESTAURANT GRID -->
+        <section id="restaurantes" class="py-24 bg-brand-dark sushi-pattern relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <span class="text-brand-red text-xs font-semibold tracking-[0.3em] uppercase"
+                        data-i18n="restaurantsTagline">Nuestros Espacios</span>
+                    <h2 class="font-display text-5xl sm:text-7xl tracking-wider mt-3" data-i18n-html="restaurantsTitle">
+                        CUATRO CASAS, <span class="text-brand-red">UNA PASIÓN</span></h2>
+                    <p class="text-gray-400 mt-4 max-w-xl mx-auto" data-i18n="restaurantsDesc">Cada restaurante tiene su
+                        propia alma. Encuentra el tuyo.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <a href="mataro.html"
+                        class="restaurant-card rounded-2xl overflow-hidden bg-brand-dark/80 border border-gray-800 reveal delay-100 block">
+                        <div class="relative h-56 img-zoom">
+                            <img src="http://static.photos/food/640x360/11" alt="Rolls especiales de Sushin Mataró"
+                                class="card-image w-full h-full object-cover" loading="lazy" width="640" height="360">
+                            <div
+                                class="card-overlay absolute inset-0 bg-brand-red/20 opacity-0 transition-opacity duration-300 flex items-center justify-center">
+                                <span class="font-display text-white text-xl tracking-wider"
+                                    data-i18n="cardViewMore">VER MÁS</span></div>
+                            <div
+                                class="absolute top-3 left-3 px-3 py-1 bg-brand-gold text-brand-dark rounded-full text-xs font-bold">
+                                SUSHIN</div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-display text-xl tracking-wider text-white mb-4">SUSHIN MATARÓ</h3>
+                            <div class="space-y-2.5">
+                                <div class="grid grid-cols-[20px_1fr] gap-3 items-start"><i data-lucide="map-pin"
+                                        class="w-4 h-4 text-brand-gold mt-0.5"></i><span
+                                        class="text-gray-400 text-sm leading-relaxed">Carrer de Sant Agustí, 66,
+                                        Mataró</span></div>
+                                <div class="grid grid-cols-[20px_1fr] gap-3 items-start"><i data-lucide="clock"
+                                        class="w-4 h-4 text-brand-gold mt-0.5"></i><span
+                                        class="text-gray-400 text-sm leading-relaxed">13:00 - 16:00 / 20:00 -
+                                        23:30</span></div>
+                                <div class="grid grid-cols-[20px_1fr] gap-3 items-start"><i data-lucide="phone"
+                                        class="w-4 h-4 text-brand-gold mt-0.5"></i><a href="tel:+34931792142"
+                                        class="text-gray-400 text-sm leading-relaxed hover:text-brand-gold transition-colors">931
+                                        79 21 42</a></div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="viladomat.html"
+                        class="restaurant-card rounded-2xl overflow-hidden bg-brand-dark/80 border border-gray-800 reveal delay-200 block">
+                        <div class="relative h-56 img-zoom">
+                            <img src="http://static.photos/food/640x360/22" alt="Nigiris de salmón en Sushin Viladomat"
+                                class="card-image w-full h-full object-cover" loading="lazy" width="640" height="360">
+                            <div
+                                class="card-overlay absolute inset-0 bg-brand-red/20 opacity-0 transition-opacity duration-300 flex items-center justify-center">
+                                <span class="font-display text-white text-xl tracking-wider"
+                                    data-i18n="cardViewMore">VER MÁS</span></div>
+                            <div
+                                class="absolute top-3 left-3 px-3 py-1 bg-brand-gold text-brand-dark rounded-full text-xs font-bold">
+                                SUSHIN</div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-display text-xl tracking-wider text-white mb-4">SUSHIN VILADOMAT</h3>
+                            <div class="space-y-2.5">
+                                <div class="grid grid-cols-[20px_1fr] gap-3 items-start"><i data-lucide="map-pin"
+                                        class="w-4 h-4 text-brand-gold mt-0.5"></i><span
+                                        class="text-gray-400 text-sm leading-relaxed">Carrer de Viladomat, 259,
+                                        Barcelona</span></div>
+                                <div class="grid grid-cols-[20px_1fr] gap-3 items-start"><i data-lucide="clock"
+                                        class="w-4 h-4 text-brand-gold mt-0.5"></i><span
+                                        class="text-gray-400 text-sm leading-relaxed">13:00 - 16:00 / 20:00 -
+                                        23:30</span></div>
+                                <div class="grid grid-cols-[20px_1fr] gap-3 items-start"><i data-lucide="phone"
+                                        class="w-4 h-4 text-brand-gold mt-0.5"></i><a href="tel:+34934234567"
+                                        class="text-gray-400 text-sm leading-relaxed hover:text-brand-gold transition-colors">934
+                                        234 567</a></div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="santgervasi.html"
+                        class="restaurant-card rounded-2xl overflow-hidden bg-brand-dark/80 border border-gray-800 reveal delay-300 block">
+                        <div class="relative h-56 img-zoom">
+                            <img src="http://static.photos/food/640x360/33" alt="Sashimi variado en Sushin Sant Gervasi"
+                                class="card-image w-full h-full object-cover" loading="lazy" width="640" height="360">
+                            <div
+                                class="card-overlay absolute inset-0 bg-brand-red/20 opacity-0 transition-opacity duration-300 flex items-center justify-center">
+                                <span class="font-display text-white text-xl tracking-wider"
+                                    data-i18n="cardViewMore">VER MÁS</span></div>
+                            <div
+                                class="absolute top-3 left-3 px-3 py-1 bg-brand-gold text-brand-dark rounded-full text-xs font-bold">
+                                SUSHIN</div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-display text-xl tracking-wider text-white mb-4">SUSHIN SANT GERVASI</h3>
+                            <div class="space-y-2.5">
+                                <div class="grid grid-cols-[20px_1fr] gap-3 items-start"><i data-lucide="map-pin"
+                                        class="w-4 h-4 text-brand-gold mt-0.5"></i><span
+                                        class="text-gray-400 text-sm leading-relaxed">Pg. de St. Gervasi, 75,
+                                        Barcelona</span></div>
+                                <div class="grid grid-cols-[20px_1fr] gap-3 items-start"><i data-lucide="clock"
+                                        class="w-4 h-4 text-brand-gold mt-0.5"></i><span
+                                        class="text-gray-400 text-sm leading-relaxed">13:00 - 16:00 / 20:00 -
+                                        23:30</span></div>
+                                <div class="grid grid-cols-[20px_1fr] gap-3 items-start"><i data-lucide="phone"
+                                        class="w-4 h-4 text-brand-gold mt-0.5"></i><a href="tel:+34937849734"
+                                        class="text-gray-400 text-sm leading-relaxed hover:text-brand-gold transition-colors">937
+                                        849 734</a></div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="balmes.html"
+                        class="restaurant-card rounded-2xl overflow-hidden bg-brand-dark/80 border border-gray-800 reveal delay-400 block">
+                        <div class="relative h-56 img-zoom">
+                            <img src="http://static.photos/food/640x360/44" alt="Combinado especial de Sushin Balmes"
+                                class="card-image w-full h-full object-cover" loading="lazy" width="640" height="360">
+                            <div
+                                class="card-overlay absolute inset-0 bg-brand-gold/20 opacity-0 transition-opacity duration-300 flex items-center justify-center">
+                                <span class="font-display text-white text-xl tracking-wider"
+                                    data-i18n="cardViewMore">VER MÁS</span></div>
+                            <div
+                                class="absolute top-3 left-3 px-3 py-1 bg-brand-gold text-brand-dark rounded-full text-xs font-bold">
+                                SUSHIN</div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-display text-xl tracking-wider text-white mb-4">SUSHIN BALMES</h3>
+                            <div class="space-y-2.5">
+                                <div class="grid grid-cols-[20px_1fr] gap-3 items-start"><i data-lucide="map-pin"
+                                        class="w-4 h-4 text-brand-gold mt-0.5"></i><span
+                                        class="text-gray-400 text-sm leading-relaxed">Carrer de Balmes, 301,
+                                        Barcelona</span></div>
+                                <div class="grid grid-cols-[20px_1fr] gap-3 items-start"><i data-lucide="clock"
+                                        class="w-4 h-4 text-brand-gold mt-0.5"></i><span
+                                        class="text-gray-400 text-sm leading-relaxed">13:00 - 16:00 / 20:30 -
+                                        00:00</span></div>
+                                <div class="grid grid-cols-[20px_1fr] gap-3 items-start"><i data-lucide="phone"
+                                        class="w-4 h-4 text-brand-gold mt-0.5"></i><a href="tel:+34934456789"
+                                        class="text-gray-400 text-sm leading-relaxed hover:text-brand-gold transition-colors">934
+                                        456 789</a></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- GOOGLE MAPS + REVIEWS -->
+        <section class="py-20 bg-brand-dark/30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 reveal">
+                    <span class="text-brand-gold text-xs font-semibold tracking-[0.3em] uppercase">Visítanos</span>
+                    <h2 class="font-display text-5xl sm:text-6xl tracking-wider mt-3">ENCUÉNTRANOS EN <span
+                            class="text-brand-gold">SANT GERVASI</span></h2>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+                    <div class="map-container reveal">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2844.173739168854!2d2.1353128758799816!3d41.4125990712966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a499404c5b6b43%3A0xfdb6fa5898473b16!2sM%C3%A1s%20Que%20Sushi%20-%20St.%20Gervasi!5e1!3m2!1szh-CN!2ses!4v1777034768080!5m2!1szh-CN!2ses"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                            title="Ubicación de Sushin Sant Gervasi">
+                        </iframe>
+                    </div>
+                    <div class="space-y-6 reveal">
+                        <a href="https://search.google.com/local/reviews?placeid=ChIJQ2tbTECZpBIRFjtHmFj6tv0"
+                            target="_blank" rel="noopener noreferrer" class="google-review-link">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <div class="flex text-yellow-400 text-xl">★★★★☆</div>
+                                    <span class="text-white font-semibold text-lg">4.3</span>
+                                </div>
+                                <p class="text-gray-400 text-sm">Ver todas las reseñas de Google</p>
+                            </div>
+                            <i data-lucide="external-link" class="w-5 h-5 text-brand-gold"></i>
+                        </a>
+                        <div class="jotform-review-wrapper">
+                            <div id="JFWebsiteWidget-019dce53a13b72f5bbbeb012fb0db2c20d85"></div>
+                            <script
+                                src='https://www.jotform.com/website-widgets/embed/019dce53a13b72f5bbbeb012fb0db2c20d85'></script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BRANDING -->
+        <section class="py-32 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-b from-brand-dark via-brand-gold/10 to-brand-dark"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                <div class="reveal"><span class="text-brand-gold text-sm tracking-[0.5em] uppercase font-semibold"
+                        data-i18n="philosophyTagline">Nuestra Filosofía</span></div>
+                <h2
+                    class="font-display text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] tracking-wider mt-6 leading-[0.85] reveal delay-100">
+                    <span class="gradient-text" data-i18n="philosophyTitle1">El crunch</span><br><span
+                        class="text-white" data-i18n="philosophyTitle2">QUE NO ESPERABAS</span>
+                </h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto mt-8 reveal delay-200" data-i18n="philosophyDesc">
+                    Creemos que el sushi es más que comida — es arte, es cultura, es una forma de entender la vida. Cada
+                    pieza que sale de nuestra cocina lleva un pedazo de nuestra alma.</p>
+                <div class="mt-10 reveal delay-300"><a href="#menu"
+                        class="inline-flex items-center gap-2 text-brand-gold font-semibold hover:gap-4 transition-all"><span
+                            data-i18n="philosophyLink">Descubre nuestra carta</span> <i data-lucide="arrow-right"
+                            class="w-5 h-5"></i></a></div>
+            </div>
+        </section>
+
+        <!-- MENU -->
+        <section id="menu" class="py-24 bg-brand-dark relative">
+            <div
+                class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-gold/30 to-transparent">
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 reveal">
+                    <span class="text-brand-gold text-xs font-semibold tracking-[0.3em] uppercase"
+                        data-i18n="menuTagline">Nuestra Carta</span>
+                    <h2 class="font-display text-5xl sm:text-7xl tracking-wider mt-3" data-i18n-html="menuTitle">SABOR
+                        <span class="text-brand-gold">AUTÉNTICO</span></h2>
+                    <p class="text-gray-400 mt-4 max-w-xl mx-auto" data-i18n="menuDesc">Más de 60 platos elaborados con
+                        los mejores ingredientes</p>
+                </div>
+                <div class="flex flex-wrap items-center justify-center gap-3 mb-8 reveal">
+                    <button class="resto-tab px-5 py-2 rounded-full text-sm font-semibold transition-all"
+                        data-resto="all" data-i18n="menuFilterAll">Todos</button>
+                    <button class="resto-tab px-5 py-2 rounded-full text-sm font-semibold transition-all"
+                        data-resto="mataro">Mataró</button>
+                    <button class="resto-tab px-5 py-2 rounded-full text-sm font-semibold transition-all"
+                        data-resto="viladomat">Viladomat</button>
+                    <button
+                        class="resto-tab active px-5 py-2 rounded-full text-sm font-semibold transition-all bg-brand-gold text-brand-dark"
+                        data-resto="santgervasi">Sant Gervasi</button>
+                    <button class="resto-tab px-5 py-2 rounded-full text-sm font-semibold transition-all"
+                        data-resto="balmes">Balmes</button>
+                </div>
+                <div class="flex overflow-x-auto gap-1 pb-4 mb-8 scrollbar-hide reveal" id="menuTabs">
+                    <button class="menu-tab active whitespace-nowrap px-4 py-2 text-sm font-semibold tracking-wide"
+                        data-category="top-rolls">🔥 Top Rolls</button>
+                    <button class="menu-tab whitespace-nowrap px-4 py-2 text-sm font-semibold tracking-wide"
+                        data-category="rolls">🌯 Rolls</button>
+                    <button class="menu-tab whitespace-nowrap px-4 py-2 text-sm font-semibold tracking-wide"
+                        data-category="tempura-rolls">🍤 Tempura Rolls</button>
+                    <button class="menu-tab whitespace-nowrap px-4 py-2 text-sm font-semibold tracking-wide"
+                        data-category="combinados">🍱 Combinados</button>
+                    <button class="menu-tab whitespace-nowrap px-4 py-2 text-sm font-semibold tracking-wide"
+                        data-category="nigiris">🍣 Nigiris</button>
+                    <button class="menu-tab whitespace-nowrap px-4 py-2 text-sm font-semibold tracking-wide"
+                        data-category="sashimi">🐟 Sashimi</button>
+                    <button class="menu-tab whitespace-nowrap px-4 py-2 text-sm font-semibold tracking-wide"
+                        data-category="maki">🟢 Maki</button>
+                    <button class="menu-tab whitespace-nowrap px-4 py-2 text-sm font-semibold tracking-wide"
+                        data-category="snacks">🥟 Snacks</button>
+                    <button class="menu-tab whitespace-nowrap px-4 py-2 text-sm font-semibold tracking-wide"
+                        data-category="ensaladas">🥗 Ensaladas</button>
+                    <button class="menu-tab whitespace-nowrap px-4 py-2 text-sm font-semibold tracking-wide"
+                        data-category="principales">🍛 Principales</button>
+                    <button class="menu-tab whitespace-nowrap px-4 py-2 text-sm font-semibold tracking-wide"
+                        data-category="tops">⭐ Tops</button>
+                    <button class="menu-tab whitespace-nowrap px-4 py-2 text-sm font-semibold tracking-wide"
+                        data-category="postres">🍨 Postres</button>
+                </div>
+                <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                <div class="text-center mt-12 reveal"><a href="carta-completa.html"
+                        class="inline-flex items-center gap-3 px-8 py-4 bg-brand-gold text-brand-dark rounded-full font-bold tracking-wider hover:bg-yellow-600 transition-all"><i
+                            data-lucide="file-text" class="w-5 h-5"></i> <span data-i18n="menuViewFull">VER CARTA
+                            COMPLETA</span></a></div>
+            </div>
+        </section>
+
+        <!-- BRAND VALUES -->
+        <section id="valores" class="py-24 bg-brand-dark/50 dot-pattern relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <span class="text-brand-gold text-xs font-semibold tracking-[0.3em] uppercase"
+                        data-i18n="valuesTagline">Lo Que Nos Define</span>
+                    <h2 class="font-display text-5xl sm:text-7xl tracking-wider mt-3" data-i18n-html="valuesTitle">
+                        NUESTROS <span class="text-brand-gold">VALORES</span></h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="value-card p-8 rounded-2xl border border-gray-800 text-center reveal delay-100">
+                        <div
+                            class="value-icon w-16 h-16 mx-auto mb-6 flex items-center justify-center text-brand-gold transition-all duration-300">
+                            <i data-lucide="fish" class="w-10 h-10"></i></div>
+                        <h3 class="font-display text-2xl tracking-wider mb-3" data-i18n="valueProduct">PRODUCTO</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed" data-i18n="valueProductDesc">Seleccionamos
+                            personalmente cada ingrediente. Pescado salvaje, arroces de pequeña producción, wasabi real.
+                            Sin atajos.</p>
+                    </div>
+                    <div class="value-card p-8 rounded-2xl border border-gray-800 text-center reveal delay-200">
+                        <div
+                            class="value-icon w-16 h-16 mx-auto mb-6 flex items-center justify-center text-brand-gold transition-all duration-300">
+                            <i data-lucide="heart-handshake" class="w-10 h-10"></i></div>
+                        <h3 class="font-display text-2xl tracking-wider mb-3" data-i18n="valueService">SERVICIO</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed" data-i18n="valueServiceDesc">Cada cliente es un
+                            invitado en nuestra casa. Atención cálida, profesional y sincera. Queremos que vuelvas.</p>
+                    </div>
+                    <div class="value-card p-8 rounded-2xl border border-gray-800 text-center reveal delay-300">
+                        <div
+                            class="value-icon w-16 h-16 mx-auto mb-6 flex items-center justify-center text-brand-gold transition-all duration-300">
+                            <i data-lucide="sparkles" class="w-10 h-10"></i></div>
+                        <h3 class="font-display text-2xl tracking-wider mb-3" data-i18n="valueDetail">DETALLE</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed" data-i18n="valueDetailDesc">La perfección está
+                            en los detalles. Desde el corte hasta la presentación, cada paso es meditado y cuidado al
+                            máximo.</p>
+                    </div>
+                    <div class="value-card p-8 rounded-2xl border border-gray-800 text-center reveal delay-400">
+                        <div
+                            class="value-icon w-16 h-16 mx-auto mb-6 flex items-center justify-center text-brand-gold transition-all duration-300">
+                            <i data-lucide="globe" class="w-10 h-10"></i></div>
+                        <h3 class="font-display text-2xl tracking-wider mb-3" data-i18n="valueFusion">FUSIÓN</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed" data-i18n="valueFusionDesc">Respetamos la
+                            tradición japonesa y la abrazamos con la creatividad mediterránea. Dos mundos, una
+                            experiencia.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GIFT CARD -->
+        <section id="giftcard" class="py-24 bg-brand-dark relative overflow-hidden">
+            <div class="absolute inset-0 opacity-5"><img src="http://static.photos/abstract/1200x630/55"
+                    class="w-full h-full object-cover" alt=""></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="reveal">
+                        <span class="text-brand-gold text-xs font-semibold tracking-[0.3em] uppercase"
+                            data-i18n="giftTagline">Regala una experiencia</span>
+                        <h2 class="font-display text-5xl sm:text-7xl tracking-wider mt-3 mb-6"
+                            data-i18n-html="giftTitle">GIFT <span class="text-brand-gold">CARD</span></h2>
+                        <p class="text-gray-400 text-lg leading-relaxed mb-8" data-i18n="giftDesc">¿Quieres sorprender a
+                            alguien especial? Nuestras gift cards son el regalo perfecto. Válidas en los 4 restaurantes.
+                        </p>
+                        <div class="flex flex-wrap items-center gap-4 mb-8">
+                            <div class="flex items-center gap-2 text-sm text-gray-400"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-brand-gold"></i> <span data-i18n="giftValid">Válida 12
+                                    meses</span></div>
+                            <div class="flex items-center gap-2 text-sm text-gray-400"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-brand-gold"></i> <span data-i18n="giftRestaurants">4
+                                    restaurantes</span></div>
+                            <div class="flex items-center gap-2 text-sm text-gray-400"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-brand-gold"></i> <span data-i18n="giftDigital">Envío
+                                    digital</span></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 reveal delay-200">
+                        <div class="gift-card bg-gradient-to-br from-brand-red to-red-800 rounded-2xl p-6 text-center"
+                            data-amount="25">
+                            <div class="text-5xl mb-3">🎁</div><span class="font-display text-4xl text-white">25€</span>
+                            <p class="text-red-200 text-xs mt-2" data-i18n="giftDigitalCard">Gift Card Digital</p>
+                            <button
+                                class="gift-card-btn mt-4 w-full py-2 bg-white/20 hover:bg-white/30 rounded-lg text-white text-sm font-semibold transition-all"
+                                data-i18n="giftBuy">Comprar</button>
+                        </div>
+                        <div class="gift-card bg-gradient-to-br from-brand-gold to-yellow-700 rounded-2xl p-6 text-center"
+                            data-amount="50">
+                            <div class="text-5xl mb-3">✨</div><span class="font-display text-4xl text-white">50€</span>
+                            <p class="text-yellow-200 text-xs mt-2" data-i18n="giftDigitalCard">Gift Card Digital</p>
+                            <button
+                                class="gift-card-btn mt-4 w-full py-2 bg-white/20 hover:bg-white/30 rounded-lg text-white text-sm font-semibold transition-all"
+                                data-i18n="giftBuy">Comprar</button>
+                        </div>
+                        <div class="gift-card bg-gradient-to-br from-gray-700 to-gray-900 rounded-2xl p-6 text-center col-span-2"
+                            data-amount="100">
+                            <div class="text-5xl mb-3">🍣</div><span
+                                class="font-display text-4xl text-white">100€</span>
+                            <p class="text-gray-300 text-xs mt-2" data-i18n="giftPremium">Gift Card Premium —
+                                Experiencia completa</p>
+                            <button
+                                class="gift-card-btn mt-4 w-48 py-2 bg-brand-gold hover:bg-yellow-600 rounded-lg text-brand-dark text-sm font-semibold transition-all"
+                                data-i18n="giftBuy">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GROUP MENU -->
+        <section id="grupos" class="py-24 bg-brand-dark/50 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="relative reveal">
+                        <div class="rounded-2xl overflow-hidden img-zoom"><img
+                                src="http://static.photos/event/640x360/5" alt="Group dining"
+                                class="w-full h-80 object-cover"></div>
+                        <div class="absolute -bottom-6 -right-6 bg-brand-gold rounded-2xl p-6 shadow-2xl"><span
+                                class="font-display text-3xl text-brand-dark">8-30</span><span
+                                class="block text-yellow-800 text-sm" data-i18n="groupsPersons">personas</span></div>
+                    </div>
+                    <div class="reveal delay-200">
+                        <span class="text-brand-gold text-xs font-semibold tracking-[0.3em] uppercase"
+                            data-i18n="groupsTagline">Eventos & Grupos</span>
+                        <h2 class="font-display text-5xl sm:text-6xl tracking-wider mt-3 mb-6"
+                            data-i18n-html="groupsTitle">MENÚ <span class="text-brand-gold">GRUPO</span></h2>
+                        <p class="text-gray-400 leading-relaxed mb-6" data-i18n="groupsDesc">Celebra con nosotros. Menús
+                            especiales diseñados para grupos de 8 a 30 personas.</p>
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-start gap-3"><i data-lucide="check"
+                                    class="w-5 h-5 text-brand-gold mt-0.5"></i><span class="text-gray-300"
+                                    data-i18n-html="groupsTasting">Menú degustación para grupos desde <strong
+                                        class="text-brand-gold">35€/persona</strong></span></div>
+                            <div class="flex items-start gap-3"><i data-lucide="check"
+                                    class="w-5 h-5 text-brand-gold mt-0.5"></i><span class="text-gray-300"
+                                    data-i18n="groupsPrivate">Zona privada disponible en todos los locales</span></div>
+                            <div class="flex items-start gap-3"><i data-lucide="check"
+                                    class="w-5 h-5 text-brand-gold mt-0.5"></i><span class="text-gray-300"
+                                    data-i18n="groupsCustom">Menú personalizado según preferencias</span></div>
+                            <div class="flex items-start gap-3"><i data-lucide="check"
+                                    class="w-5 h-5 text-brand-gold mt-0.5"></i><span class="text-gray-300"
+                                    data-i18n="groupsDrink">Bebida y postre incluidos</span></div>
+                        </div>
+                        <a href="#"
+                            class="inline-flex items-center gap-3 px-8 py-4 bg-brand-gold text-brand-dark rounded-full font-bold tracking-wider hover:bg-yellow-600 transition-all"><i
+                                data-lucide="users" class="w-5 h-5"></i> <span data-i18n="groupsButton">SOLICITAR
+                                PRESUPUESTO</span></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DELIVERY -->
+        <section class="py-24 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-brand-gold/20 via-brand-gold/5 to-transparent"></div>
+            <div class="absolute right-0 top-0 w-1/2 h-full opacity-10"><img src="http://static.photos/food/1200x630/88"
+                    class="w-full h-full object-cover" alt=""></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="flex flex-col lg:flex-row items-center gap-12">
+                    <div class="flex-1 reveal">
+                        <span class="text-brand-gold text-xs font-semibold tracking-[0.3em] uppercase"
+                            data-i18n="deliveryTagline">Delivery & Takeaway</span>
+                        <h2 class="font-display text-5xl sm:text-7xl tracking-wider mt-3 mb-6"
+                            data-i18n-html="deliveryTitle">SUSHI EN <span class="text-brand-gold">CASA</span></h2>
+                        <p class="text-gray-400 text-lg leading-relaxed mb-8" data-i18n="deliveryDesc">Haz tu pedido
+                            online y recíbelo en menos de 45 minutos.</p>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="pedir.html"
+                                class="inline-flex items-center gap-3 px-8 py-4 bg-brand-gold text-brand-dark rounded-full font-bold tracking-wider hover:bg-yellow-600 transition-all animate-pulse-gold"><i
+                                    data-lucide="bike" class="w-5 h-5"></i> <span data-i18n="deliveryBtn">PEDIR
+                                    DELIVERY</span></a>
+                            <a href="pedir.html"
+                                class="inline-flex items-center gap-3 px-8 py-4 border-2 border-white/20 text-white rounded-full font-bold tracking-wider hover:border-brand-gold hover:text-brand-gold transition-all"><i
+                                    data-lucide="package" class="w-5 h-5"></i> <span
+                                    data-i18n="takeawayBtn">TAKEAWAY</span></a>
+                        </div>
+                    </div>
+                    <div class="flex-1 flex items-center justify-center reveal delay-200">
+                        <div class="relative">
+                            <div
+                                class="w-64 h-64 rounded-full bg-brand-gold/10 flex items-center justify-center animate-float">
+                                <span class="text-9xl">🛵</span></div>
+                            <div class="absolute -top-4 -right-4 bg-brand-gold rounded-full p-4 shadow-lg"><span
+                                    class="font-display text-brand-dark text-lg">45min</span></div>
+                            <div class="absolute -bottom-4 -left-4 bg-brand-red rounded-full p-4 shadow-lg"><span
+                                    class="font-display text-white text-lg">FREE+</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="py-24 bg-brand-dark relative">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <span class="text-brand-gold text-xs font-semibold tracking-[0.3em] uppercase"
+                        data-i18n="faqTagline">Preguntas Frecuentes</span>
+                    <h2 class="font-display text-5xl sm:text-7xl tracking-wider mt-3">FAQ</h2>
+                </div>
+                <div class="space-y-3 reveal" id="faqContainer"></div>
+            </div>
+        </section>
+
+        <!-- SOCIAL -->
+        <section class="py-16 bg-brand-dark">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+                <span class="text-brand-gold text-xs font-semibold tracking-[0.3em] uppercase"
+                    data-i18n="socialTagline">Síguenos</span>
+                <h2 class="font-display text-4xl sm:text-5xl tracking-wider mt-3 mb-8">@SUSHIN_SANTGERVASI</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="img-zoom rounded-xl overflow-hidden aspect-square"><img
+                            src="http://static.photos/food/320x240/33" class="w-full h-full object-cover" alt=""></div>
+                    <div class="img-zoom rounded-xl overflow-hidden aspect-square"><img
+                            src="http://static.photos/food/320x240/44" class="w-full h-full object-cover" alt=""></div>
+                    <div class="img-zoom rounded-xl overflow-hidden aspect-square"><img
+                            src="http://static.photos/food/320x240/11" class="w-full h-full object-cover" alt=""></div>
+                    <div class="img-zoom rounded-xl overflow-hidden aspect-square"><img
+                            src="http://static.photos/food/320x240/22" class="w-full h-full object-cover" alt=""></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="pt-20 pb-8 bg-brand-dark border-t border-gray-800" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div
+                            class="w-10 h-10 bg-brand-gold rounded-full flex items-center justify-center overflow-hidden">
+                            <img src="images/sushinlogo.png" alt="Sushin Logo" class="w-full h-full object-contain p-1">
+                        </div>
+                        <div><span class="font-display text-xl tracking-wider text-white">SUSHIN</span><span
+                                class="text-brand-gold text-xs block -mt-1 tracking-widest">SANT GERVASI</span></div>
+                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6" data-i18n="footerDesc">Fusión
+                        japonesa-mediterránea en el distinguido barrio de Sant Gervasi. Elegancia sin límites.</p>
+                    <div class="flex items-center gap-3">
+                        <a href="#"
+                            class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center text-gray-500 hover:border-brand-gold hover:text-brand-gold transition-all"
+                            aria-label="Instagram"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center text-gray-500 hover:border-brand-gold hover:text-brand-gold transition-all"
+                            aria-label="Facebook"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center text-gray-500 hover:border-brand-gold hover:text-brand-gold transition-all"
+                            aria-label="Twitter"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-display text-lg tracking-wider mb-6 text-white" data-i18n="footerRestaurants">
+                        RESTAURANTES</h4>
+                    <div class="space-y-4">
+                        <div><a href="mataro.html"
+                                class="text-white text-sm font-semibold hover:text-brand-gold transition-colors">Sushin
+                                Mataró</a>
+                            <p class="text-gray-500 text-xs mt-1">Carrer de Sant Agustí, 66</p>
+                            <p class="text-gray-500 text-xs">931 79 21 42</p>
+                        </div>
+                        <div><a href="viladomat.html"
+                                class="text-white text-sm font-semibold hover:text-brand-gold transition-colors">Sushin
+                                Viladomat</a>
+                            <p class="text-gray-500 text-xs mt-1">Carrer de Viladomat, 259</p>
+                            <p class="text-gray-500 text-xs">934 234 567</p>
+                        </div>
+                        <div><a href="santgervasi.html"
+                                class="text-white text-sm font-semibold hover:text-brand-gold transition-colors">Sushin
+                                Sant Gervasi</a>
+                            <p class="text-gray-500 text-xs mt-1">Pg. de St. Gervasi, 75</p>
+                            <p class="text-gray-500 text-xs">937 849 734</p>
+                        </div>
+                        <div><a href="balmes.html"
+                                class="text-white text-sm font-semibold hover:text-brand-gold transition-colors">Sushin
+                                Balmes</a>
+                            <p class="text-gray-500 text-xs mt-1">Carrer de Balmes, 301</p>
+                            <p class="text-gray-500 text-xs">934 456 789</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-display text-lg tracking-wider mb-6 text-white" data-i18n="footerLinks">ENLACES</h4>
+                    <div class="space-y-3">
+                        <a href="carta-completa.html"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerCarta">Carta completa</a>
+                        <a href="pedir.html" class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerDelivery">Delivery</a>
+                        <a href="reservar.html"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerReservas">Reservas</a>
+                        <a href="index.html#giftcard"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerGift">Gift Cards</a>
+                        <a href="index.html#grupos"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerGrupo">Menú grupo</a>
+                        <a href="trabaja-con-nosotros.html"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerTrabaja">Trabaja con nosotros</a>
+                        <a href="aviso-legal.html"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerLegal">Aviso legal</a>
+                        <a href="politica-privacidad.html"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerPrivacy">Política de privacidad</a>
+                        <a href="politica-cookies.html"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors">Cookies</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-display text-lg tracking-wider mb-6 text-white">NEWSLETTER</h4>
+                    <p class="text-gray-500 text-sm mb-4" data-i18n="footerNewsletter">Recibe ofertas exclusivas y
+                        novedades.</p>
+                    <form id="newsletterForm" class="flex gap-2" novalidate>
+                        <label for="newsletterEmail" class="sr-only" data-i18n="footerEmail">Tu email</label>
+                        <input id="newsletterEmail" type="email" placeholder="Tu email"
+                            class="flex-1 px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors"
+                            required>
+                        <button type="submit"
+                            class="px-4 py-2.5 bg-brand-gold text-brand-dark rounded-lg text-sm font-semibold hover:bg-yellow-600 transition-all"
+                            aria-label="Suscribir"><i data-lucide="send" class="w-4 h-4"></i></button>
+                    </form>
+                    <div class="mt-6 flex items-center gap-3">
+                        <div class="flex items-center gap-1 text-yellow-400 text-xs" aria-label="4.3 de 5 estrellas">
+                            ★★★★☆</div>
+                        <span class="text-gray-500 text-xs">4.3 / 5 — 800+ <span
+                                data-i18n="reviewsCount">reseñas</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-gray-600 text-xs" data-i18n="footerCopyright">© 2026 Sushin Sant Gervasi. Todos los
+                    derechos reservados.</p>
+                <p class="text-gray-600 text-xs" data-i18n="footerMade">Hecho con ✨ en Barcelona</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- STICKY ORDER BAR -->
+    <div id="stickyOrder"
+        class="sticky-order fixed bottom-0 left-0 w-full bg-brand-dark/95 backdrop-blur-lg border-t border-gray-800 z-40 p-3 lg:hidden">
+        <div class="flex items-center gap-3 max-w-lg mx-auto">
+            <a href="pedir.html"
+                class="flex-1 py-3 bg-brand-gold text-brand-dark rounded-xl text-sm font-bold text-center hover:bg-yellow-600 transition-all flex items-center justify-center gap-2"><i
+                    data-lucide="shopping-bag" class="w-4 h-4"></i> <span data-i18n="stickyOrder">PEDIR</span></a>
+            <a href="reservar.html"
+                class="flex-1 py-3 border-2 border-brand-gold text-brand-gold rounded-xl text-sm font-bold text-center hover:bg-brand-gold hover:text-brand-dark transition-all flex items-center justify-center gap-2"><i
+                    data-lucide="calendar" class="w-4 h-4"></i> <span data-i18n="stickyReserve">RESERVAR</span></a>
+        </div>
+    </div>
+
+    <button id="backToTop"
+        class="fixed bottom-24 right-6 z-40 w-12 h-12 bg-gray-800 border border-gray-700 rounded-full flex items-center justify-center text-gray-400 hover:text-brand-gold hover:border-brand-gold transition-all opacity-0 translate-y-4 pointer-events-none"
+        aria-label="Volver arriba"><i data-lucide="chevron-up" class="w-5 h-5"></i></button>
+
+    <a href="https://wa.me/34937849734" target="_blank" rel="noopener noreferrer"
+        class="fixed bottom-40 lg:bottom-8 right-6 z-40 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-all hover:scale-110"
+        aria-label="Contactar por WhatsApp">
+        <svg viewBox="0 0 24 24" class="w-7 h-7 text-white" fill="currentColor">
+            <path
+                d="M12.031 0C5.389 0 0 5.389 0 12.031c0 2.121.553 4.201 1.598 6.011L0 24l6.187-1.623a11.98 11.98 0 0 0 5.844 1.485h.005c6.642 0 12.031-5.389 12.031-12.031C24.067 5.389 18.678 0 12.031 0zm0 22.009h-.005a9.964 9.964 0 0 1-5.093-1.395l-.365-.217-3.669.962.979-3.574-.239-.38a9.97 9.97 0 0 1-1.528-5.297c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10z" />
+            <path
+                d="M17.635 14.355c-.299-.15-1.767-.873-2.041-.972-.274-.1-.473-.15-.673.15-.2.299-.773.972-.948 1.171-.175.2-.349.225-.648.075-.299-.15-1.263-.466-2.406-1.486-.889-.793-1.489-1.772-1.663-2.071-.175-.299-.019-.461.131-.61.134-.134.299-.349.448-.523.15-.175.2-.299.299-.498.1-.2.05-.374-.025-.524-.075-.15-.673-1.621-.923-2.22-.243-.58-.49-.5-.673-.51-.173-.008-.374-.01-.574-.01-.2 0-.523.075-.798.374-.274.299-1.047 1.023-1.047 2.494 0 1.471 1.072 2.893 1.222 3.093.15.2 2.107 3.218 5.105 4.513.713.308 1.27.492 1.704.63.716.228 1.367.196 1.882.119.574-.086 1.767-.723 2.016-1.421.249-.698.249-1.297.174-1.421-.074-.124-.274-.199-.573-.349z" />
+        </svg>
+    </a>
+
+    <!-- AI CHAT -->
+    <button id="aiChatBtn"
+        class="fixed bottom-24 lg:bottom-8 left-6 z-40 w-14 h-14 bg-brand-gold rounded-full flex items-center justify-center shadow-lg hover:bg-yellow-600 transition-all hover:scale-110 animate-pulse-gold">
+        <svg class="w-6 h-6 text-brand-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2a8 8 0 0 1 8 8v4a8 8 0 0 1-16 0v-4a8 8 0 0 1 8-8z" />
+            <circle cx="9" cy="9" r="1.5" fill="currentColor" stroke="none" />
+            <circle cx="15" cy="9" r="1.5" fill="currentColor" stroke="none" />
+            <path d="M9 14a3 3 0 0 0 6 0" />
+        </svg>
+    </button>
+    <div id="aiChatPanel"
+        class="ai-chat-panel fixed z-50 bg-brand-dark border border-gray-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col left-3 right-3 bottom-40 sm:left-6 sm:right-auto sm:bottom-24 sm:w-[380px]"
+        style="height: 500px; max-height: calc(100vh - 12rem);">
+        <div class="bg-brand-gold px-5 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-brand-dark/20 rounded-full flex items-center justify-center"><span
+                        class="text-lg">🤖</span></div>
+                <div><span class="text-brand-dark font-semibold text-sm" data-i18n="chatAssistant">Asistente Sushin Sant
+                        Gervasi</span><span class="block text-brand-dark/70 text-xs">IA · <span
+                            data-i18n="chatInstant">Responde al instante</span></span></div>
+            </div>
+            <button id="aiChatClose" class="text-brand-dark/80 hover:text-brand-dark"><i data-lucide="x"
+                    class="w-5 h-5"></i></button>
+        </div>
+        <div id="aiChatMessages" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+        <div class="border-t border-gray-800 p-3">
+            <div class="flex flex-wrap gap-1.5 mb-2">
+                <button
+                    class="quick-reply text-xs px-3 py-1.5 bg-gray-800 text-gray-300 rounded-full hover:bg-brand-gold/20 hover:text-brand-gold transition-all"
+                    data-msg="¿Cuál es la carta?">🍣 <span data-i18n="chatCarta">Carta</span></button>
+                <button
+                    class="quick-reply text-xs px-3 py-1.5 bg-gray-800 text-gray-300 rounded-full hover:bg-brand-gold/20 hover:text-brand-gold transition-all"
+                    data-msg="Quiero reservar">📅 <span data-i18n="chatReservar">Reservar</span></button>
+                <button
+                    class="quick-reply text-xs px-3 py-1.5 bg-gray-800 text-gray-300 rounded-full hover:bg-brand-gold/20 hover:text-brand-gold transition-all"
+                    data-msg="¿Hacéis delivery?">🛵 <span data-i18n="chatDelivery">Delivery</span></button>
+                <button
+                    class="quick-reply text-xs px-3 py-1.5 bg-gray-800 text-gray-300 rounded-full hover:bg-brand-gold/20 hover:text-brand-gold transition-all"
+                    data-msg="¿Dónde están?">📍 <span data-i18n="chatUbicacion">Ubicación</span></button>
+                <button
+                    class="quick-reply text-xs px-3 py-1.5 bg-gray-800 text-gray-300 rounded-full hover:bg-brand-gold/20 hover:text-brand-gold transition-all"
+                    data-msg="Opciones vegetarianas">🌱 <span data-i18n="chatVegetariano">Vegetariano</span></button>
+            </div>
+            <form id="chatForm" class="flex items-center gap-2">
+                <input id="aiChatInput" type="text" placeholder="Escribe tu pregunta..."
+                    data-i18n-placeholder="chatPlaceholder"
+                    class="flex-1 px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-xl text-white text-sm placeholder-gray-500 focus:border-brand-gold focus:outline-none">
+                <button type="submit"
+                    class="w-10 h-10 bg-brand-gold rounded-xl flex items-center justify-center hover:bg-yellow-600"><i
+                        data-lucide="send" class="w-4 h-4 text-brand-dark"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL (保持不变) -->
+    <div id="loginModal" class="login-modal fixed inset-0 z-[70] flex items-center justify-center p-4" role="dialog"
+        aria-modal="true" aria-label="Inicio de sesión">
+        <div id="loginOverlay" class="absolute inset-0 bg-black/70"></div>
+        <div
+            class="login-content relative bg-brand-dark border border-gray-800 rounded-2xl w-full max-w-md overflow-hidden">
+            <button id="loginCloseBtn" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors"
+                aria-label="Cerrar modal"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <div class="flex border-b border-gray-800">
+                <button class="login-tab active flex-1 py-4 text-sm font-semibold tracking-wide transition-all"
+                    data-tab="login" data-i18n="loginTab">INICIAR SESIÓN</button>
+                <button class="login-tab flex-1 py-4 text-sm font-semibold tracking-wide transition-all"
+                    data-tab="register" data-i18n="registerTab">REGISTRARSE</button>
+            </div>
+            <div id="loginForm" class="p-6">
+                <div class="space-y-4">
+                    <div><label for="loginEmail" class="text-sm text-gray-400 mb-1 block">Email</label><input
+                            id="loginEmail" type="email"
+                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-brand-gold focus:outline-none transition-colors"
+                            placeholder="tu@email.com" required></div>
+                    <div><label for="loginPassword" class="text-sm text-gray-400 mb-1 block"
+                            data-i18n="loginPassword">Contraseña</label><input id="loginPassword" type="password"
+                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-brand-gold focus:outline-none transition-colors"
+                            placeholder="••••••••" required></div>
+                    <p id="loginError" class="text-red-400 text-sm hidden"></p>
+                    <button id="loginSubmit"
+                        class="w-full py-3 bg-brand-gold text-brand-dark rounded-lg font-semibold hover:bg-yellow-600 transition-all"
+                        data-i18n="loginButton">Entrar</button>
+                </div>
+            </div>
+            <div id="registerForm" class="p-6 hidden">
+                <div class="space-y-4">
+                    <div><label for="regName" class="text-sm text-gray-400 mb-1 block"
+                            data-i18n="registerName">Nombre</label><input id="regName" type="text"
+                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-brand-gold focus:outline-none transition-colors"
+                            placeholder="Tu nombre" required></div>
+                    <div><label for="regEmail" class="text-sm text-gray-400 mb-1 block">Email</label><input
+                            id="regEmail" type="email"
+                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-brand-gold focus:outline-none transition-colors"
+                            placeholder="tu@email.com" required></div>
+                    <div><label for="regPassword" class="text-sm text-gray-400 mb-1 block"
+                            data-i18n="loginPassword">Contraseña</label><input id="regPassword" type="password"
+                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-brand-gold focus:outline-none transition-colors"
+                            placeholder="Mínimo 6 caracteres" required></div>
+                    <p id="registerError" class="text-red-400 text-sm hidden"></p>
+                    <button id="registerSubmit"
+                        class="w-full py-3 bg-brand-gold text-brand-dark rounded-lg font-semibold hover:bg-yellow-600 transition-all"
+                        data-i18n="registerButton">Crear cuenta</button>
+                </div>
+            </div>
+            <div id="loggedInView" class="p-6 hidden">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-brand-gold rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span id="userAvatarInitial" class="text-brand-dark font-display text-2xl">U</span></div>
+                    <h3 class="text-white font-semibold text-lg" id="userNameDisplay">Usuario</h3>
+                    <p class="text-gray-400 text-sm" id="userEmailDisplay">user@email.com</p>
+                    <button id="logoutBtn"
+                        class="mt-6 px-6 py-2.5 border border-gray-600 text-gray-300 rounded-lg text-sm font-semibold hover:border-brand-gold hover:text-brand-gold transition-all"
+                        data-i18n="logoutButton">Cerrar sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer" class="fixed top-24 right-4 z-[80] flex flex-col gap-2 pointer-events-none"
+        aria-live="polite"></div>
+
+    <div id="cookieConsent"
+        class="fixed bottom-0 left-0 w-full z-[55] bg-brand-dark/95 backdrop-blur-lg border-t border-gray-800 p-4 transform translate-y-0 transition-transform duration-500 hidden">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-gray-400 text-sm text-center sm:text-left" data-i18n-html="cookieText">🍪 Usamos cookies para
+                mejorar tu experiencia. Al continuar navegando, aceptas nuestra <a href="politica-cookies.html"
+                    class="text-brand-gold underline">política de cookies</a>.</p>
+            <div class="flex items-center gap-3 flex-shrink-0">
+                <button id="cookieReject"
+                    class="px-4 py-2 border border-gray-600 text-gray-300 rounded-lg text-sm font-semibold hover:border-brand-gold hover:text-brand-gold transition-all"
+                    data-i18n="cookieReject">Rechazar</button>
+                <button id="cookieAccept"
+                    class="px-4 py-2 bg-brand-gold text-brand-dark rounded-lg text-sm font-semibold hover:bg-yellow-600 transition-all"
+                    data-i18n="cookieAccept">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="i18n.js"></script>
+    <script src="lang-init.js"></script>
+    <script src="script.js"></script>
+
+    <!-- 水印移除脚本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const wrapper = document.querySelector('.jotform-review-wrapper');
+            if (!wrapper) return;
+            const observer = new MutationObserver(function (mutations) {
+                const elements = wrapper.querySelectorAll('a[href*="jotform"], img[src*="jotform"], div[class*="jotform"], span[class*="jotform"]');
+                elements.forEach(el => el.remove());
+                const walker = document.createTreeWalker(wrapper, NodeFilter.SHOW_TEXT, null, false);
+                let node;
+                while (node = walker.nextNode()) {
+                    if (node.textContent.includes('Powered by')) {
+                        node.parentElement.style.display = 'none';
+                    }
+                }
+            });
+            observer.observe(wrapper, { childList: true, subtree: true });
+        });
+    </script>
+
+    <!-- Contadores -->
+    <script>
+        (function () {
+            function animateCounter(element, target, suffix = '') { /* ... */ }
+            function startCounters() { /* ... */ }
+            if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', startCounters); } else { startCounters(); }
+        })();
+    </script>
+</body>
+
+</html>

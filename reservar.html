@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle">Reservar Mesa — Sushin Barcelona | Restaurantes en Barcelona</title>
+    <meta name="description" data-i18n="metaDesc"
+        content="Reserva tu mesa en cualquiera de nuestros restaurantes Sushin Barcelona. Disfruta de la mejor experiencia de sushi en Barcelona y Mataró.">
+
+    <!-- Tailwind & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { red: '#D4282D', dark: '#1A1A1A', cream: '#F5F0E8', gold: '#C9A96E', light: '#FFF8F0' },
+                    },
+                    fontFamily: {
+                        display: ['Bebas Neue', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .animate-pulse-gold {
+            animation: pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse-gold {
+
+            0%,
+            100% {
+                opacity: 1;
+                box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.5);
+            }
+
+            50% {
+                opacity: 0.9;
+                box-shadow: 0 0 15px 4px rgba(201, 169, 110, 0.3);
+            }
+        }
+
+        .form-section {
+            opacity: 0;
+            transform: translateY(15px);
+            animation: formFadeIn 0.5s ease-out forwards;
+        }
+
+        .form-section:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .form-section:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .form-section:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .form-section:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+
+        .form-section:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        .form-section:nth-child(6) {
+            animation-delay: 0.3s;
+        }
+
+        .form-section:nth-child(7) {
+            animation-delay: 0.35s;
+        }
+
+        .form-section:nth-child(8) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes formFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-pulse {
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-pulse:active {
+            transform: scale(0.97);
+        }
+
+        .resto-option {
+            transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.3);
+        }
+
+        .input-error {
+            border-color: #D4282D !important;
+        }
+
+        .resto-option.border-brand-gold {
+            border-color: #C9A96E !important;
+        }
+
+        .lang-select {
+            background-color: transparent;
+            border: 1px solid #374151;
+            border-radius: 9999px;
+            padding: 0.25rem 1.5rem 0.25rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #D1D5DB;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23C9A96E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 14px;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .lang-select:hover {
+            border-color: #C9A96E;
+            color: #C9A96E;
+        }
+
+        .lang-select:focus {
+            outline: none;
+            border-color: #C9A96E;
+            box-shadow: 0 0 0 2px rgba(201, 169, 110, 0.3);
+        }
+
+        .lang-select option {
+            background-color: #1A1A1A;
+            color: #D1D5DB;
+        }
+
+        @media (max-width: 1023px) {
+            .lang-select {
+                font-size: 0.75rem;
+                padding: 0.125rem 1.25rem 0.125rem 0.5rem;
+                background-position: right 0.25rem center;
+                background-size: 12px;
+            }
+        }
+    </style>
+    <script>window.currentResto = 'all';</script>
+</head>
+
+<body class="bg-brand-dark" data-page="reservar">
+
+    <a href="#main-content" class="skip-nav" data-i18n="skipNav">Saltar al contenido principal</a>
+
+    <div id="loadingScreen" class="loading-screen" aria-hidden="true">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div
+                    class="w-14 h-14 bg-brand-gold rounded-full flex items-center justify-center animate-pulse mx-auto overflow-hidden">
+                    <img src="images/sushinlogo.png" alt="Sushin Logo" class="w-full h-full object-contain p-1">
+                </div>
+            </div>
+            <div class="mt-4 text-center animate-fadeIn">
+                <span class="font-display text-2xl tracking-wider text-white">SUSHIN</span>
+                <span class="text-brand-gold text-xs block -mt-1 tracking-widest">BARCELONA</span>
+            </div>
+            <div class="loading-bar mt-6">
+                <div class="loading-bar-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="scrollProgress" class="scroll-progress" aria-hidden="true">
+        <div class="scroll-progress-fill"></div>
+    </div>
+
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 nav-scrolled">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex items-center gap-2 group" aria-label="Sushin Barcelona - Inicio">
+                    <div
+                        class="w-10 h-10 bg-brand-gold rounded-full flex items-center justify-center group-hover:scale-110 transition-transform overflow-hidden">
+                        <img src="images/sushinlogo.png" alt="Sushin Logo" class="w-full h-full object-contain p-1">
+                    </div>
+                    <div><span class="font-display text-2xl tracking-wider text-white">SUSHIN</span><span
+                            class="text-brand-gold text-xs block -mt-1 tracking-widest">BARCELONA</span></div>
+                </a>
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="index.html#restaurantes"
+                        class="text-sm text-gray-300 hover:text-brand-gold transition-colors tracking-wide uppercase font-medium"
+                        data-i18n="navRestaurants">Restaurantes</a>
+                    <a href="index.html#menu"
+                        class="text-sm text-gray-300 hover:text-brand-gold transition-colors tracking-wide uppercase font-medium"
+                        data-i18n="navMenu">Carta</a>
+                    <a href="index.html#valores"
+                        class="text-sm text-gray-300 hover:text-brand-gold transition-colors tracking-wide uppercase font-medium"
+                        data-i18n="navAbout">Nosotros</a>
+                    <a href="index.html#giftcard"
+                        class="text-sm text-gray-300 hover:text-brand-gold transition-colors tracking-wide uppercase font-medium"
+                        data-i18n="navGift">Gift Card</a>
+                    <a href="index.html#grupos"
+                        class="text-sm text-gray-300 hover:text-brand-gold transition-colors tracking-wide uppercase font-medium"
+                        data-i18n="navGroups">Grupos</a>
+                    <a href="index.html#faq"
+                        class="text-sm text-gray-300 hover:text-brand-gold transition-colors tracking-wide uppercase font-medium">FAQ</a>
+                </div>
+                <div class="hidden lg:flex items-center gap-3">
+                    <select id="lang-select-desktop" class="lang-select" aria-label="Seleccionar idioma">
+                        <option value="es">ES</option>
+                        <option value="ca">CA</option>
+                        <option value="en">EN</option>
+                        <option value="fr">FR</option>
+                    </select>
+                    <button id="userBtnDesktop"
+                        class="w-10 h-10 rounded-full border-2 border-gray-600 flex items-center justify-center text-gray-300 hover:border-brand-gold hover:text-brand-gold transition-all"
+                        aria-label="Cuenta de usuario"><i data-lucide="user" class="w-5 h-5"></i></button>
+                    <a href="reservar.html"
+                        class="px-5 py-2.5 border-2 border-brand-gold text-brand-gold rounded-full text-sm font-semibold hover:bg-brand-gold hover:text-brand-dark transition-all tracking-wide"
+                        data-i18n="navReserve">RESERVAR</a>
+                    <a href="pedir.html"
+                        class="px-5 py-2.5 bg-brand-gold text-brand-dark rounded-full text-sm font-semibold hover:bg-yellow-600 transition-all tracking-wide animate-pulse-gold"
+                        data-i18n="navOrder">PEDIR AHORA</a>
+                </div>
+                <div class="flex lg:hidden items-center gap-2">
+                    <select id="lang-select-mobile" class="lang-select" aria-label="Seleccionar idioma">
+                        <option value="es">ES</option>
+                        <option value="ca">CA</option>
+                        <option value="en">EN</option>
+                        <option value="fr">FR</option>
+                    </select>
+                    <button id="userBtnMobile"
+                        class="w-10 h-10 rounded-full border-2 border-gray-600 flex items-center justify-center text-gray-300 hover:border-brand-gold hover:text-brand-gold transition-all"
+                        aria-label="Cuenta de usuario"><i data-lucide="user" class="w-5 h-5"></i></button>
+                    <button id="menuToggle" class="text-white p-2" aria-label="Abrir menú" aria-expanded="false"
+                        aria-controls="mobileMenu"><i data-lucide="menu" class="w-6 h-6"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 w-80 h-full bg-brand-dark z-[60] p-8 flex flex-col"
+        role="dialog" aria-modal="true" aria-label="Menú de navegación">
+        <button id="menuClose" class="self-end text-white mb-8" aria-label="Cerrar menú"><i data-lucide="x"
+                class="w-7 h-7"></i></button>
+        <div class="flex flex-col gap-6">
+            <a href="index.html#restaurantes"
+                class="text-2xl font-display tracking-wider text-white hover:text-brand-gold transition-colors mobile-link"
+                data-i18n="navRestaurants">RESTAURANTES</a>
+            <a href="index.html#menu"
+                class="text-2xl font-display tracking-wider text-white hover:text-brand-gold transition-colors mobile-link"
+                data-i18n="navMenu">CARTA</a>
+            <a href="index.html#valores"
+                class="text-2xl font-display tracking-wider text-white hover:text-brand-gold transition-colors mobile-link"
+                data-i18n="navAbout">NOSOTROS</a>
+            <a href="index.html#giftcard"
+                class="text-2xl font-display tracking-wider text-white hover:text-brand-gold transition-colors mobile-link"
+                data-i18n="navGift">GIFT CARD</a>
+            <a href="index.html#grupos"
+                class="text-2xl font-display tracking-wider text-white hover:text-brand-gold transition-colors mobile-link"
+                data-i18n="navGroups">GRUPOS</a>
+            <a href="index.html#faq"
+                class="text-2xl font-display tracking-wider text-white hover:text-brand-gold transition-colors mobile-link">FAQ</a>
+        </div>
+        <div class="mt-auto flex flex-col gap-3">
+            <a href="reservar.html"
+                class="px-6 py-3 border-2 border-brand-gold text-brand-gold rounded-full text-center font-semibold hover:bg-brand-gold hover:text-brand-dark transition-all"
+                data-i18n="navReserve">RESERVAR</a>
+            <a href="pedir.html"
+                class="px-6 py-3 bg-brand-gold text-brand-dark rounded-full text-center font-semibold hover:bg-yellow-600 transition-all"
+                data-i18n="navOrder">PEDIR AHORA</a>
+        </div>
+    </div>
+    <div id="menuOverlay" class="fixed inset-0 bg-black/60 z-[55] hidden"></div>
+
+    <main id="main-content" class="pt-24 pb-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 reveal">
+                <span class="text-brand-gold text-xs font-semibold tracking-[0.3em] uppercase"
+                    data-i18n="reserveTagline">Reserva tu experiencia</span>
+                <h1 class="font-display text-5xl sm:text-7xl tracking-wider mt-3" data-i18n-html="reserveTitle">RESERVA
+                    <span class="text-brand-gold">MESA</span>
+                </h1>
+                <div class="w-20 h-px bg-brand-gold/40 mx-auto mt-4"></div>
+                <p class="text-gray-400 mt-4 max-w-2xl mx-auto" data-i18n="reserveSubtitle">Completa el formulario y
+                    asegura tu lugar en cualquiera de nuestros restaurantes.</p>
+            </div>
+
+            <div class="bg-gray-900/50 border border-gray-800 rounded-2xl p-8 reveal">
+                <form id="reservaForm" class="space-y-8" novalidate>
+                    <div class="form-section">
+                        <label class="block text-sm font-semibold text-gray-300 mb-2"><i data-lucide="map-pin"
+                                class="inline w-4 h-4 mr-1"></i> <span data-i18n="reserveSelectRestaurant">Selecciona
+                                restaurante</span></label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                            <label
+                                class="resto-option flex items-center gap-2 p-3 bg-gray-800 border border-gray-700 rounded-xl cursor-pointer transition-all hover:border-brand-gold"><input
+                                    type="radio" name="restaurante" value="mataro" class="accent-brand-gold" checked>
+                                Sushin Mataró</label>
+                            <label
+                                class="resto-option flex items-center gap-2 p-3 bg-gray-800 border border-gray-700 rounded-xl cursor-pointer transition-all hover:border-brand-gold"><input
+                                    type="radio" name="restaurante" value="viladomat" class="accent-brand-gold"> Sushin
+                                Viladomat</label>
+                            <label
+                                class="resto-option flex items-center gap-2 p-3 bg-gray-800 border border-gray-700 rounded-xl cursor-pointer transition-all hover:border-brand-gold"><input
+                                    type="radio" name="restaurante" value="santgervasi" class="accent-brand-gold">
+                                Sushin Sant Gervasi</label>
+                            <label
+                                class="resto-option flex items-center gap-2 p-3 bg-gray-800 border border-gray-700 rounded-xl cursor-pointer transition-all hover:border-brand-gold"><input
+                                    type="radio" name="restaurante" value="balmes" class="accent-brand-gold"> Sushin
+                                Balmes</label>
+                        </div>
+                    </div>
+
+                    <div class="form-section grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="fecha" class="block text-sm font-semibold text-gray-300 mb-2"><i
+                                    data-lucide="calendar" class="inline w-4 h-4 mr-1"></i> <span
+                                    data-i18n="reserveDate">Fecha</span></label>
+                            <input type="date" id="fecha" name="fecha" required
+                                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white text-sm focus:border-brand-gold focus:outline-none transition-all">
+                        </div>
+                        <div>
+                            <label for="hora" class="block text-sm font-semibold text-gray-300 mb-2"><i
+                                    data-lucide="clock" class="inline w-4 h-4 mr-1"></i> <span
+                                    data-i18n="reserveTime">Hora</span></label>
+                            <select id="hora" name="hora" required
+                                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white text-sm focus:border-brand-gold focus:outline-none transition-all">
+                                <option value="" data-i18n="reserveSelectTime">Selecciona una hora</option>
+                                <option>13:00</option>
+                                <option>13:30</option>
+                                <option>14:00</option>
+                                <option>14:30</option>
+                                <option>15:00</option>
+                                <option>20:00</option>
+                                <option>20:30</option>
+                                <option>21:00</option>
+                                <option>21:30</option>
+                                <option>22:00</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <label for="comensales" class="block text-sm font-semibold text-gray-300 mb-2"><i
+                                data-lucide="users" class="inline w-4 h-4 mr-1"></i> <span
+                                data-i18n="reserveDiners">Número de comensales</span></label>
+                        <select id="comensales" name="comensales" required
+                            class="w-full md:w-1/3 px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white text-sm focus:border-brand-gold focus:outline-none transition-all">
+                            <option data-i18n="reserveDiner1">1 persona</option>
+                            <option data-i18n="reserveDiner2">2 personas</option>
+                            <option data-i18n="reserveDiner3">3 personas</option>
+                            <option data-i18n="reserveDiner4">4 personas</option>
+                            <option data-i18n="reserveDiner5">5 personas</option>
+                            <option data-i18n="reserveDiner6">6 personas</option>
+                            <option data-i18n="reserveDiner7">7 personas</option>
+                            <option data-i18n="reserveDiner8">8 personas</option>
+                            <option data-i18n="reserveDinerMore">Más de 8 (menú grupo)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-section grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="nombre" class="block text-sm font-semibold text-gray-300 mb-2"
+                                data-i18n="reserveFullName">Nombre completo</label>
+                            <input type="text" id="nombre" name="nombre" required
+                                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white text-sm focus:border-brand-gold focus:outline-none transition-all"
+                                placeholder="Ej: María García">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-semibold text-gray-300 mb-2">Email</label>
+                            <input type="email" id="email" name="email" required
+                                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white text-sm focus:border-brand-gold focus:outline-none transition-all"
+                                placeholder="tu@email.com">
+                        </div>
+                        <div>
+                            <label for="telefono" class="block text-sm font-semibold text-gray-300 mb-2"
+                                data-i18n="reservePhone">Teléfono</label>
+                            <input type="tel" id="telefono" name="telefono" required
+                                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white text-sm focus:border-brand-gold focus:outline-none transition-all"
+                                placeholder="+34 600 000 000">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <label for="comentarios" class="block text-sm font-semibold text-gray-300 mb-2"
+                            data-i18n="reserveComments">Comentarios (opcional)</label>
+                        <textarea id="comentarios" name="comentarios" rows="3"
+                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white text-sm focus:border-brand-gold focus:outline-none transition-all"
+                            placeholder="¿Alguna petición especial? ¿Celebras algo?"></textarea>
+                    </div>
+
+                    <div class="form-section flex items-start gap-3">
+                        <input type="checkbox" id="politicas" name="politicas" required class="mt-1 accent-brand-gold">
+                        <label for="politicas" class="text-sm text-gray-400" data-i18n-html="reserveConsent">He leído y
+                            acepto la <a href="politica-privacidad.html"
+                                class="text-brand-gold hover:underline">política de privacidad</a> y las condiciones de
+                            reserva.</label>
+                    </div>
+
+                    <div class="form-section">
+                        <button type="submit"
+                            class="btn-pulse w-full py-4 bg-brand-gold text-brand-dark rounded-xl font-bold text-lg hover:bg-yellow-600 transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="calendar-check" class="w-5 h-5"></i> <span
+                                data-i18n="reserveConfirm">CONFIRMAR RESERVA</span>
+                        </button>
+                        <p class="text-gray-500 text-xs text-center mt-3" data-i18n="reserveEmailNote">Recibirás un
+                            email de confirmación. Cancelación gratuita hasta 2 horas antes.</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="pt-20 pb-8 bg-brand-dark border-t border-gray-800" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div
+                            class="w-10 h-10 bg-brand-gold rounded-full flex items-center justify-center overflow-hidden">
+                            <img src="images/sushinlogo.png" alt="Sushin Logo" class="w-full h-full object-contain p-1">
+                        </div>
+                        <div><span class="font-display text-xl tracking-wider text-white">SUSHIN</span><span
+                                class="text-brand-gold text-xs block -mt-1 tracking-widest">BARCELONA</span></div>
+                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6" data-i18n="footerDesc">Tradición japonesa y
+                        creatividad mediterránea. Cuatro espacios únicos en Barcelona.</p>
+                    <div class="flex items-center gap-3"><a href="#"
+                            class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center text-gray-500 hover:border-brand-gold hover:text-brand-gold transition-all"
+                            aria-label="Instagram"><i data-lucide="instagram" class="w-5 h-5"></i></a><a href="#"
+                            class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center text-gray-500 hover:border-brand-gold hover:text-brand-gold transition-all"
+                            aria-label="Facebook"><i data-lucide="facebook" class="w-5 h-5"></i></a><a href="#"
+                            class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center text-gray-500 hover:border-brand-gold hover:text-brand-gold transition-all"
+                            aria-label="Twitter"><i data-lucide="twitter" class="w-5 h-5"></i></a></div>
+                </div>
+                <div>
+                    <h4 class="font-display text-lg tracking-wider mb-6 text-white" data-i18n="footerRestaurants">
+                        RESTAURANTES</h4>
+                    <div class="space-y-4">
+                        <div><a href="mataro.html"
+                                class="text-white text-sm font-semibold hover:text-brand-gold transition-colors">Sushin
+                                Mataró</a>
+                            <p class="text-gray-500 text-xs mt-1">Carrer de Barcelona, 23</p>
+                            <p class="text-gray-500 text-xs">937 123 456</p>
+                        </div>
+                        <div><a href="viladomat.html"
+                                class="text-white text-sm font-semibold hover:text-brand-gold transition-colors">Sushin
+                                Viladomat</a>
+                            <p class="text-gray-500 text-xs mt-1">Carrer de Viladomat, 42</p>
+                            <p class="text-gray-500 text-xs">934 234 567</p>
+                        </div>
+                        <div><a href="santgervasi.html"
+                                class="text-white text-sm font-semibold hover:text-brand-gold transition-colors">Sushin
+                                Sant Gervasi</a>
+                            <p class="text-gray-500 text-xs mt-1">Carrer de Sant Gervasi, 15</p>
+                            <p class="text-gray-500 text-xs">933 345 678</p>
+                        </div>
+                        <div><a href="balmes.html"
+                                class="text-white text-sm font-semibold hover:text-brand-gold transition-colors">Sushin
+                                Balmes</a>
+                            <p class="text-gray-500 text-xs mt-1">Carrer de Balmes, 301</p>
+                            <p class="text-gray-500 text-xs">934 456 789</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-display text-lg tracking-wider mb-6 text-white" data-i18n="footerLinks">ENLACES</h4>
+                    <div class="space-y-3">
+                        <a href="carta-completa.html"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerCarta">Carta completa</a>
+                        <a href="pedir.html" class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerDelivery">Delivery</a>
+                        <a href="reservar.html"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerReservas">Reservas</a>
+                        <a href="index.html#giftcard"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerGift">Gift Cards</a>
+                        <a href="index.html#grupos"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerGrupo">Menú grupo</a>
+                        <a href="trabaja-con-nosotros.html"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerTrabaja">Trabaja con nosotros</a>
+                        <a href="aviso-legal.html"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerLegal">Aviso legal</a>
+                        <a href="politica-privacidad.html"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors"
+                            data-i18n="footerPrivacy">Política de privacidad</a>
+                        <a href="politica-cookies.html"
+                            class="block text-gray-500 text-sm hover:text-brand-gold transition-colors">Cookies</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-display text-lg tracking-wider mb-6 text-white">NEWSLETTER</h4>
+                    <p class="text-gray-500 text-sm mb-4" data-i18n="footerNewsletter">Recibe ofertas exclusivas y
+                        novedades.</p>
+                    <form id="newsletterForm" class="flex gap-2" novalidate>
+                        <label for="newsletterEmail" class="sr-only" data-i18n="footerEmail">Tu email</label><input
+                            id="newsletterEmail" type="email" placeholder="Tu email"
+                            class="flex-1 px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors"
+                            required>
+                        <button type="submit"
+                            class="px-4 py-2.5 bg-brand-gold text-brand-dark rounded-lg text-sm font-semibold hover:bg-yellow-600 transition-all"
+                            aria-label="Suscribir"><i data-lucide="send" class="w-4 h-4"></i></button>
+                    </form>
+                    <div class="mt-6 flex items-center gap-3">
+                        <div class="flex items-center gap-1 text-yellow-400 text-xs" aria-label="4.8 de 5 estrellas">
+                            ★★★★★</div><span class="text-gray-500 text-xs">4.8 / 5 — 2,300+ <span
+                                data-i18n="reviewsCount">reseñas</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-gray-600 text-xs" data-i18n="footerCopyright">© 2026 Sushin Barcelona. Todos los derechos
+                    reservados.</p>
+                <p class="text-gray-600 text-xs" data-i18n="footerMade">Hecho con 🍣 en Barcelona</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="stickyOrder"
+        class="sticky-order fixed bottom-0 left-0 w-full bg-brand-dark/95 backdrop-blur-lg border-t border-gray-800 z-40 p-3 lg:hidden">
+        <div class="flex items-center gap-3 max-w-lg mx-auto">
+            <a href="pedir.html"
+                class="flex-1 py-3 bg-brand-gold text-brand-dark rounded-xl text-sm font-bold text-center hover:bg-yellow-600 transition-all flex items-center justify-center gap-2"><i
+                    data-lucide="shopping-bag" class="w-4 h-4"></i> <span data-i18n="stickyOrder">PEDIR</span></a>
+            <a href="reservar.html"
+                class="flex-1 py-3 border-2 border-brand-gold text-brand-gold rounded-xl text-sm font-bold text-center hover:bg-brand-gold hover:text-brand-dark transition-all flex items-center justify-center gap-2"><i
+                    data-lucide="calendar" class="w-4 h-4"></i> <span data-i18n="stickyReserve">RESERVAR</span></a>
+        </div>
+    </div>
+
+    <button id="backToTop"
+        class="fixed bottom-24 right-6 z-40 w-12 h-12 bg-gray-800 border border-gray-700 rounded-full flex items-center justify-center text-gray-400 hover:text-brand-gold hover:border-brand-gold transition-all opacity-0 translate-y-4 pointer-events-none"
+        aria-label="Volver arriba"><i data-lucide="chevron-up" class="w-5 h-5"></i></button>
+
+    <a href="https://wa.me/34937123456" target="_blank" rel="noopener noreferrer"
+        class="fixed bottom-40 lg:bottom-8 right-6 z-40 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-all hover:scale-110"
+        aria-label="Contactar por WhatsApp"><svg viewBox="0 0 24 24" class="w-7 h-7 text-white" fill="currentColor">
+            <path
+                d="M12.031 0C5.389 0 0 5.389 0 12.031c0 2.121.553 4.201 1.598 6.011L0 24l6.187-1.623a11.98 11.98 0 0 0 5.844 1.485h.005c6.642 0 12.031-5.389 12.031-12.031C24.067 5.389 18.678 0 12.031 0zm0 22.009h-.005a9.964 9.964 0 0 1-5.093-1.395l-.365-.217-3.669.962.979-3.574-.239-.38a9.97 9.97 0 0 1-1.528-5.297c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10z" />
+            <path
+                d="M17.635 14.355c-.299-.15-1.767-.873-2.041-.972-.274-.1-.473-.15-.673.15-.2.299-.773.972-.948 1.171-.175.2-.349.225-.648.075-.299-.15-1.263-.466-2.406-1.486-.889-.793-1.489-1.772-1.663-2.071-.175-.299-.019-.461.131-.61.134-.134.299-.349.448-.523.15-.175.2-.299.299-.498.1-.2.05-.374-.025-.524-.075-.15-.673-1.621-.923-2.22-.243-.58-.49-.5-.673-.51-.173-.008-.374-.01-.574-.01-.2 0-.523.075-.798.374-.274.299-1.047 1.023-1.047 2.494 0 1.471 1.072 2.893 1.222 3.093.15.2 2.107 3.218 5.105 4.513.713.308 1.27.492 1.704.63.716.228 1.367.196 1.882.119.574-.086 1.767-.723 2.016-1.421.249-.698.249-1.297.174-1.421-.074-.124-.274-.199-.573-.349z" />
+        </svg></a>
+
+    <button id="aiChatBtn"
+        class="fixed bottom-40 lg:bottom-8 left-6 z-40 w-14 h-14 bg-brand-gold rounded-full flex items-center justify-center shadow-lg hover:bg-yellow-600 transition-all hover:scale-110 animate-pulse-gold"
+        aria-label="Abrir chat de asistencia" aria-expanded="false"><svg class="w-6 h-6 text-brand-dark"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2a8 8 0 0 1 8 8v4a8 8 0 0 1-16 0v-4a8 8 0 0 1 8-8z" />
+            <circle cx="9" cy="9" r="1.5" fill="currentColor" stroke="none" />
+            <circle cx="15" cy="9" r="1.5" fill="currentColor" stroke="none" />
+            <path d="M9 14a3 3 0 0 0 6 0" />
+        </svg></button>
+    <div id="aiChatPanel"
+        class="ai-chat-panel fixed z-50 bg-brand-dark border border-gray-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col left-3 right-3 bottom-52 sm:left-6 sm:right-auto sm:bottom-24 sm:w-[380px]"
+        style="height: 500px; max-height: calc(100vh - 12rem);" role="dialog" aria-modal="true"
+        aria-label="Chat de asistencia">
+        <div class="bg-brand-gold px-5 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-brand-dark/20 rounded-full flex items-center justify-center"><span
+                        class="text-lg">🤖</span></div>
+                <div><span class="text-brand-dark font-semibold text-sm" data-i18n="chatAssistant">Asistente Sushin
+                        Barcelona</span><span class="block text-brand-dark/70 text-xs">IA · <span
+                            data-i18n="chatInstant">Responde al instante</span></span></div>
+            </div><button id="aiChatClose" class="text-brand-dark/80 hover:text-brand-dark"><i data-lucide="x"
+                    class="w-5 h-5"></i></button>
+        </div>
+        <div id="aiChatMessages" class="flex-1 overflow-y-auto p-4 space-y-3" role="log" aria-live="polite"></div>
+        <div class="border-t border-gray-800 p-3">
+            <div class="flex flex-wrap gap-1.5 mb-2">
+                <button
+                    class="quick-reply text-xs px-3 py-1.5 bg-gray-800 text-gray-300 rounded-full hover:bg-brand-gold/20 hover:text-brand-gold transition-all"
+                    data-msg="¿Cuál es la carta?">🍣 <span data-i18n="chatCarta">Carta</span></button>
+                <button
+                    class="quick-reply text-xs px-3 py-1.5 bg-gray-800 text-gray-300 rounded-full hover:bg-brand-gold/20 hover:text-brand-gold transition-all"
+                    data-msg="Quiero reservar">📅 <span data-i18n="chatReservar">Reservar</span></button>
+                <button
+                    class="quick-reply text-xs px-3 py-1.5 bg-gray-800 text-gray-300 rounded-full hover:bg-brand-gold/20 hover:text-brand-gold transition-all"
+                    data-msg="¿Hacéis delivery?">🛵 <span data-i18n="chatDelivery">Delivery</span></button>
+                <button
+                    class="quick-reply text-xs px-3 py-1.5 bg-gray-800 text-gray-300 rounded-full hover:bg-brand-gold/20 hover:text-brand-gold transition-all"
+                    data-msg="¿Dónde están?">📍 <span data-i18n="chatUbicacion">Ubicación</span></button>
+                <button
+                    class="quick-reply text-xs px-3 py-1.5 bg-gray-800 text-gray-300 rounded-full hover:bg-brand-gold/20 hover:text-brand-gold transition-all"
+                    data-msg="Opciones vegetarianas">🌱 <span data-i18n="chatVegetariano">Vegetariano</span></button>
+            </div>
+            <form id="chatForm" class="flex items-center gap-2"><input id="aiChatInput" type="text"
+                    placeholder="Escribe tu pregunta..." data-i18n-placeholder="chatPlaceholder"
+                    class="flex-1 px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-xl text-white text-sm placeholder-gray-500 focus:border-brand-gold focus:outline-none"
+                    autocomplete="off"><button type="submit"
+                    class="w-10 h-10 bg-brand-gold rounded-xl flex items-center justify-center hover:bg-yellow-600 transition-all"
+                    aria-label="Enviar mensaje"><i data-lucide="send" class="w-4 h-4 text-brand-dark"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <div id="loginModal" class="login-modal fixed inset-0 z-[70] flex items-center justify-center p-4" role="dialog"
+        aria-modal="true" aria-label="Inicio de sesión">
+        <div id="loginOverlay" class="absolute inset-0 bg-black/70"></div>
+        <div
+            class="login-content relative bg-brand-dark border border-gray-800 rounded-2xl w-full max-w-md overflow-hidden">
+            <button id="loginCloseBtn" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors"
+                aria-label="Cerrar modal"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <div class="flex border-b border-gray-800"><button
+                    class="login-tab active flex-1 py-4 text-sm font-semibold tracking-wide transition-all"
+                    data-tab="login" data-i18n="loginTab">INICIAR SESIÓN</button><button
+                    class="login-tab flex-1 py-4 text-sm font-semibold tracking-wide transition-all" data-tab="register"
+                    data-i18n="registerTab">REGISTRARSE</button></div>
+            <div id="loginForm" class="p-6">
+                <div class="space-y-4">
+                    <div><label for="loginEmail" class="text-sm text-gray-400 mb-1 block">Email</label><input
+                            id="loginEmail" type="email"
+                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-brand-gold focus:outline-none transition-colors"
+                            placeholder="tu@email.com" required></div>
+                    <div><label for="loginPassword" class="text-sm text-gray-400 mb-1 block"
+                            data-i18n="loginPassword">Contraseña</label><input id="loginPassword" type="password"
+                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-brand-gold focus:outline-none transition-colors"
+                            placeholder="••••••••" required></div>
+                    <p id="loginError" class="text-red-400 text-sm hidden"></p><button id="loginSubmit"
+                        class="w-full py-3 bg-brand-gold text-brand-dark rounded-lg font-semibold hover:bg-yellow-600 transition-all"
+                        data-i18n="loginButton">Entrar</button>
+                </div>
+            </div>
+            <div id="registerForm" class="p-6 hidden">
+                <div class="space-y-4">
+                    <div><label for="regName" class="text-sm text-gray-400 mb-1 block"
+                            data-i18n="registerName">Nombre</label><input id="regName" type="text"
+                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-brand-gold focus:outline-none transition-colors"
+                            placeholder="Tu nombre" required></div>
+                    <div><label for="regEmail" class="text-sm text-gray-400 mb-1 block">Email</label><input
+                            id="regEmail" type="email"
+                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-brand-gold focus:outline-none transition-colors"
+                            placeholder="tu@email.com" required></div>
+                    <div><label for="regPassword" class="text-sm text-gray-400 mb-1 block"
+                            data-i18n="loginPassword">Contraseña</label><input id="regPassword" type="password"
+                            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-brand-gold focus:outline-none transition-colors"
+                            placeholder="Mínimo 6 caracteres" required></div>
+                    <p id="registerError" class="text-red-400 text-sm hidden"></p><button id="registerSubmit"
+                        class="w-full py-3 bg-brand-gold text-brand-dark rounded-lg font-semibold hover:bg-yellow-600 transition-all"
+                        data-i18n="registerButton">Crear cuenta</button>
+                </div>
+            </div>
+            <div id="loggedInView" class="p-6 hidden">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-brand-gold rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span id="userAvatarInitial" class="text-brand-dark font-display text-2xl">U</span>
+                    </div>
+                    <h3 class="text-white font-semibold text-lg" id="userNameDisplay">Usuario</h3>
+                    <p class="text-gray-400 text-sm" id="userEmailDisplay">user@email.com</p><button id="logoutBtn"
+                        class="mt-6 px-6 py-2.5 border border-gray-600 text-gray-300 rounded-lg text-sm font-semibold hover:border-brand-gold hover:text-brand-gold transition-all"
+                        data-i18n="logoutButton">Cerrar sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer" class="fixed top-24 right-4 z-[80] flex flex-col gap-2 pointer-events-none"
+        aria-live="polite"></div>
+    <div id="cookieConsent"
+        class="fixed bottom-0 left-0 w-full z-[55] bg-brand-dark/95 backdrop-blur-lg border-t border-gray-800 p-4 transform translate-y-0 transition-transform duration-500 hidden">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-gray-400 text-sm text-center sm:text-left" data-i18n-html="cookieText">🍪 Usamos cookies para
+                mejorar tu experiencia. Al continuar navegando, aceptas nuestra <a href="politica-cookies.html"
+                    class="text-brand-gold underline">política de cookies</a>.</p>
+            <div class="flex items-center gap-3 flex-shrink-0"><button id="cookieReject"
+                    class="px-4 py-2 border border-gray-600 text-gray-300 rounded-lg text-sm font-semibold hover:border-brand-gold hover:text-brand-gold transition-all"
+                    data-i18n="cookieReject">Rechazar</button><button id="cookieAccept"
+                    class="px-4 py-2 bg-brand-gold text-brand-dark rounded-lg text-sm font-semibold hover:bg-yellow-600 transition-all"
+                    data-i18n="cookieAccept">Aceptar</button></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="i18n.js"></script>
+    <script src="lang-init.js"></script>
+    <script src="script.js"></script>
+
+    <!-- Formulario de reserva (bilingüe con toasts) -->
+    <script>
+        (function () {
+            "use strict";
+
+            function t(key, fallback) {
+                if (window.I18n && typeof window.I18n.t === 'function') {
+                    return window.I18n.t(key) || fallback;
+                }
+                return fallback;
+            }
+
+            function showToast(message, type = 'info', duration = 3000) {
+                if (typeof Utils !== 'undefined' && Utils.showToast) {
+                    Utils.showToast(message, type, duration);
+                } else {
+                    alert(message);
+                }
+            }
+
+            const form = document.getElementById('reservaForm');
+            const fechaInput = document.getElementById('fecha');
+            const horaSelect = document.getElementById('hora');
+            const comensalesSelect = document.getElementById('comensales');
+            const nombreInput = document.getElementById('nombre');
+            const emailInput = document.getElementById('email');
+            const telefonoInput = document.getElementById('telefono');
+            const politicasCheck = document.getElementById('politicas');
+            const restoOptions = document.querySelectorAll('.resto-option');
+            const radioInputs = document.querySelectorAll('input[name="restaurante"]');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const requiredInputs = [nombreInput, emailInput, telefonoInput];
+
+            const today = new Date().toISOString().split('T')[0];
+            fechaInput.min = today;
+            fechaInput.value = today;
+
+            function updateRestoSelection(selectedValue) {
+                restoOptions.forEach(opt => {
+                    const radio = opt.querySelector('input[type="radio"]');
+                    const isSelected = radio.value === selectedValue;
+                    opt.classList.toggle('border-brand-gold', isSelected);
+                    opt.classList.toggle('bg-gray-700', isSelected);
+                });
+            }
+
+            const defaultChecked = document.querySelector('input[name="restaurante"]:checked');
+            if (defaultChecked) updateRestoSelection(defaultChecked.value);
+
+            radioInputs.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    updateRestoSelection(e.target.value);
+                    const label = e.target.closest('label')?.innerText.trim() || e.target.value;
+                    showToast(`${t('reserveRestaurantSelected', 'Restaurante:')} ${label}`, 'info', 1500);
+                });
+            });
+
+            restoOptions.forEach(opt => {
+                opt.addEventListener('click', function (e) {
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio && !radio.checked) {
+                        radio.checked = true;
+                        radio.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            });
+
+            function validateInput(input) {
+                if (!input) return;
+                input.classList.toggle('input-error', input.value.trim() === '');
+            }
+
+            requiredInputs.forEach(input => {
+                if (!input) return;
+                input.addEventListener('input', () => validateInput(input));
+                input.addEventListener('blur', () => validateInput(input));
+            });
+
+            emailInput.addEventListener('blur', () => {
+                const value = emailInput.value.trim();
+                const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+                emailInput.classList.toggle('input-error', value === '' || !isValid);
+            });
+
+            function clearInputErrors() {
+                requiredInputs.forEach(input => { if (input) input.classList.remove('input-error'); });
+            }
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const restaurante = document.querySelector('input[name="restaurante"]:checked')?.value;
+                const fecha = fechaInput.value;
+                const hora = horaSelect.value;
+                const comensales = comensalesSelect.value;
+                const nombre = nombreInput.value.trim();
+                const email = emailInput.value.trim();
+                const telefono = telefonoInput.value.trim();
+                const politicas = politicasCheck.checked;
+
+                let hasError = false;
+
+                if (!restaurante) hasError = true;
+                if (!fecha) { fechaInput.classList.add('input-error'); hasError = true; }
+                if (!hora) { horaSelect.classList.add('input-error'); hasError = true; }
+                if (!comensales) { comensalesSelect.classList.add('input-error'); hasError = true; }
+                if (!nombre) { nombreInput.classList.add('input-error'); hasError = true; }
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    emailInput.classList.add('input-error');
+                    hasError = true;
+                }
+                if (!telefono) { telefonoInput.classList.add('input-error'); hasError = true; }
+                if (!politicas) {
+                    politicasCheck.classList.add('input-error');
+                    hasError = true;
+                } else {
+                    politicasCheck.classList.remove('input-error');
+                }
+
+                if (hasError) {
+                    showToast(t('reserveFormError', 'Por favor, completa todos los campos obligatorios correctamente'), 'error', 3000);
+                    return;
+                }
+
+                const originalHTML = submitBtn.innerHTML;
+                submitBtn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> ${t('reserveConfirming', 'CONFIRMANDO...')}`;
+                submitBtn.disabled = true;
+
+                setTimeout(() => {
+                    const successMsg = t('reserveSuccess', `¡Reserva confirmada en ${restaurante} para ${fecha} a las ${hora}! Revisa tu email.`);
+                    showToast(successMsg, 'success', 5000);
+
+                    form.reset();
+                    fechaInput.value = today;
+                    clearInputErrors();
+                    horaSelect.classList.remove('input-error');
+                    comensalesSelect.classList.remove('input-error');
+                    politicasCheck.classList.remove('input-error');
+
+                    const firstRadio = document.querySelector('input[name="restaurante"][value="mataro"]');
+                    if (firstRadio) {
+                        firstRadio.checked = true;
+                        updateRestoSelection('mataro');
+                    }
+
+                    submitBtn.innerHTML = originalHTML;
+                    submitBtn.disabled = false;
+                    lucide.createIcons();
+                }, 800);
+            });
+
+            fechaInput.addEventListener('change', () => fechaInput.classList.remove('input-error'));
+            horaSelect.addEventListener('change', () => horaSelect.classList.remove('input-error'));
+            comensalesSelect.addEventListener('change', () => comensalesSelect.classList.remove('input-error'));
+            politicasCheck.addEventListener('change', () => politicasCheck.classList.remove('input-error'));
+        })();
+    </script>
+</body>
+
+</html>
